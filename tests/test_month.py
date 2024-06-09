@@ -1,0 +1,8 @@
+def test_month1_init(may):
+    assert may.year == 2024
+    assert may.month_ind == 5
+
+
+def test_month2_init(june):
+    assert june.year == 2024
+    assert june.month_ind == 6
