@@ -28,6 +28,12 @@ class Day:
         if self.is_vacation:
             self.is_work = False
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}("{self.date}")'
+
+    def __str__(self):
+        return f'{self.short_date()}|{self.weekday}|{self.is_work}'
+
     def short_date(self):
         """Возвращает сокращенную до дней дату"""
         result = self.date[:2]

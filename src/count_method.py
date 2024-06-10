@@ -1,14 +1,24 @@
+
 class CountMethod:
     """
     Пока ХЗ как это сделать, может лучще просто методами класа МЕСЯЦ
     """
     condition: str
+    schedule_name: str
 
-    def five_two(self, day):
-        if day.weekday_ind > 4:
-            day.is_work = False
+    def __init__(self, schedule_name, day):
+        self.schedule_name = schedule_name
+        self.day = day
+
+    def __call__(self, *args, **kwargs):
+        if self.schedule_name == '5/2':
+            return self.five_two()
+
+    def five_two(self, **kwargs):
+        if self.day.weekday_ind > 4:
+            self.day.is_work = False
         else:
-            day.is_work = True
+            self.day.is_work = True
 
     def one_one(self, days_list=None):
         if days_list is None:
