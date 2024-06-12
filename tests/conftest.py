@@ -1,6 +1,7 @@
 import pytest
-from src.day import *
-from src.month import *
+
+from src.day import Day
+from src.month import Month
 
 
 @pytest.fixture
@@ -19,13 +20,14 @@ def day3():
 
 
 @pytest.fixture
-def may():
-    return Month(2024, 5, '1/1')
+def may_5_2():
+    may = Month(2024, 5, '5/2')
+    may.calculate_schedule()
+    return may
 
 
 @pytest.fixture
-def june_one_one():
+def june_1_1():
     june = Month(2024, 6, '1/1')
-    june.gen_day_list()
-    june.one_one()
+    june.calculate_schedule()
     return june

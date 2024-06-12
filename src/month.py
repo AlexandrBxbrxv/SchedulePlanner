@@ -28,8 +28,8 @@ class Month:
     def gen_day_list(self):
         """Создает список пустых(только дата) дней и складывает их в список"""
         month_len = calendar.monthrange(self.__year, self.__month_ind)[1]
-        day = 1
-        while range(month_len):
+        day = self.first_day
+        while range(month_len - day):
             # Добавление 0 в дату если 1-9 станет 01-09
             null_day = ''
             if day < 10:
@@ -57,47 +57,43 @@ class Month:
             self.gen_day_list()
 
         if self.schedule == '5/2':
-            self.five_two()
+            self.__five_two()
         if self.schedule == '1/1':
-            self.one_one()
+            self.__one_one()
 
-    def five_two(self):
+    def __five_two(self):
         """ Метод для расчета графика '5/2' """
         for day in self.days_list:
             if day.weekday_ind > 4:
                 day.is_work = False
+                day.work_type = 'Выходной'
             else:
                 day.is_work = True
 
-    def one_one(self):
+    def __one_one(self):
         """ Метод для расчета графика '1/1' """
         schedule = ['2', 'В', '1', 'В']
-
         schedule_index = self.last_shift
         for day in self.days_list:
             index = schedule[schedule_index]
-
-            if index == '2' or index == '1':
+            if index == '2':
                 day.is_work = True
+                day.work_type = 'Дневная'
+            elif index == '1':
+                day.is_work = True
+                day.work_type = 'Ночная'
             else:
                 day.is_work = False
-
-            if index == '1':
-                day.work_type = 'Ночная'
-            if index == '2':
-                day.work_type = 'Дневная'
-            if index == 'В':
                 day.work_type = 'Выходной'
 
             self.last_shift = schedule_index
-
             schedule_index += 1
             if schedule_index >= 4:
                 schedule_index -= 4
 
 
 if __name__ == '__main__':
-    june = Month(2024, 1, '1/1', 2)
+    june = Month(2024, 1, '1/1', 1)
     june.last_shift = 2
     june.calculate_schedule()
     print(june)
@@ -105,7 +101,7 @@ if __name__ == '__main__':
         print(day)
     print(june.last_shift)
 
-    day = june.find_day('12')
-    print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
-    day.plan = 'Погулять'
-    print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
+    # day = june.find_day('12')
+    # print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
+    # day.plan = 'Погулять'
+    # print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
