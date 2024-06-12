@@ -13,23 +13,31 @@ class Month:
     days_list: list
     first_day: int
     last_shift: int
+    month_name: str
 
-    def __init__(self, year, month_ind, schedule, first_day=1):
+    def __init__(self, year, month_ind, schedule, first_day=1, last_shift=0):
         self.__year = year
         self.__month_ind = month_ind
+        month_names_list = ['ЯНВ', 'ФЕВ', 'МАР', 'АПР', 'МАЙ', 'ИЮН', 'ИЮЛ', 'АВГ', 'СЕН', 'ОКТ', 'НОЯ', 'ДЕК']
+        self.month_name = month_names_list[self.__month_ind - 1]
         self.schedule = schedule
         self.first_day = first_day
         self.days_list = []
-        self.last_shift = 0
+        self.last_shift = last_shift
 
     def __repr__(self):
+        """Представление для отладки"""
         return f'{self.__class__.__name__}({self.__year}, {self.__month_ind}, "{self.schedule}")'
+
+    def __str__(self):
+        """Строковое представление для пользователя"""
+        return f'{self.month_name}({self.__month_ind}), Дней: {len(self.days_list)}, "{self.schedule}"'
 
     def gen_day_list(self):
         """Создает список пустых(только дата) дней и складывает их в список"""
         month_len = calendar.monthrange(self.__year, self.__month_ind)[1]
         day = self.first_day
-        while range(month_len - day):
+        while range(month_len):
             # Добавление 0 в дату если 1-9 станет 01-09
             null_day = ''
             if day < 10:
@@ -93,15 +101,22 @@ class Month:
 
 
 if __name__ == '__main__':
-    june = Month(2024, 1, '1/1', 1)
+    june = Month(2024, 6, '1/1')
     june.last_shift = 2
     june.calculate_schedule()
-    print(june)
-    for day in june.days_list:
-        print(day)
-    print(june.last_shift)
+    # print(june)
+    # for day in june.days_list:
+    #     print(day)
+    # print(june.last_shift)
 
-    # day = june.find_day('12')
-    # print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
-    # day.plan = 'Погулять'
-    # print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
+    month_list = [6, 7, 8, 9, 10, 11, 12]
+    last = 1
+    for index in month_list:
+        month = Month(2024, index, '1/1', last_shift=last)
+        month.calculate_schedule()
+        last = month.last_shift + 1
+        if last > 3:
+            last = 0
+        print(month)
+        for day in month.days_list:
+            print(day)
