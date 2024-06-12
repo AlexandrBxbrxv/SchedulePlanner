@@ -10,17 +10,19 @@ class Day:
     is_vacation: bool
     plan: str
     weather: str
+    work_type: str
 
-    def __init__(self, date, is_work=None, is_vacation=None, plan=None, weather=None,):
+    def __init__(self, date, is_work=None, is_vacation=None):
         self.date = date
         weekday_ind = datetime.date.weekday(datetime.datetime.strptime(self.date, '%d.%m.%Y'))
         week = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
         self.weekday = week[weekday_ind]
         self.weekday_ind = weekday_ind
         self.is_work = is_work
+        self.work_type = 'Дневная'
         self.is_vacation = is_vacation
-        self.plan = plan
-        self.weather = weather
+        self.plan = 'Ничего не запланировано'
+        self.weather = 'Не известно'
 
         if self.is_work:
             self.is_vacation = False
@@ -32,7 +34,7 @@ class Day:
         return f'{self.__class__.__name__}("{self.date}")'
 
     def __str__(self):
-        return f'{self.short_date()}|{self.weekday}|{self.is_work}'
+        return f'{self.date[:2]}|{self.weekday}|{self.work_type}'
 
     def short_date(self):
         """Возвращает сокращенную до дней дату"""

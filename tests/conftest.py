@@ -24,5 +24,8 @@ def may():
 
 
 @pytest.fixture
-def june():
-    return Month(2024, 6, '1/1')
+def june_one_one():
+    june = Month(2024, 6, '1/1')
+    june.gen_day_list()
+    june.one_one()
+    return june

@@ -1,12 +1,11 @@
 from src.day import Day
-from src.count_method import *
 import calendar
 
 
 class Month:
     """Генерирует и записывает список дней, дни в списке можно изменять после генерации. Функции: расчёт графика работы
     в зависимости от графика(1/1), поиск дней по дате, определение последней смены для перехода на след.
-     месяц если нужен, вывод графика в консоль"""
+     месяц если нужен"""
 
     year: int
     month_ind: int
@@ -46,23 +45,24 @@ class Month:
             day += 1
             month_len -= 1
 
-    def print_day_list(self):
-        """Вывод всех дней из списка в консоль, для отладки"""
-        for day in self.days_list:
-            print(day.short_date())
-
     def find_day(self, date: str):
-        """Находит день, возвращает на него ссылку НО как с ней взаимодействовать после нахождения не ясно - узнать"""
+        """Находит день по короткой дате(1, 9, 31), возвращает на него ссылку"""
         for day in self.days_list:
             if day.short_date() == date:
-                return day.date
+                return day
 
     def calculate_schedule(self):
-        """Рассчитывает график смен в зависимости от графика"""
-        pass
+        """ Выбирает и использует метод расчета в зависимости от графика(Например: '5/2') """
+        if not self.days_list:
+            self.gen_day_list()
+
+        if self.schedule == '5/2':
+            self.five_two()
+        if self.schedule == '1/1':
+            self.one_one()
 
     def five_two(self):
-        """Назначает рабочие дни для графика 5/2"""
+        """ Метод для расчета графика '5/2' """
         for day in self.days_list:
             if day.weekday_ind > 4:
                 day.is_work = False
@@ -70,24 +70,42 @@ class Month:
                 day.is_work = True
 
     def one_one(self):
-        """Назначает рабочие дни для графика 1/1"""
+        """ Метод для расчета графика '1/1' """
         schedule = ['2', 'В', '1', 'В']
+
+        schedule_index = self.last_shift
         for day in self.days_list:
-            index = ''
-            for index in schedule:
-                if index == '2' or index == '1':
-                    day.is_work = True
-                else:
-                    day.is_work = False
+            index = schedule[schedule_index]
+
+            if index == '2' or index == '1':
+                day.is_work = True
+            else:
+                day.is_work = False
+
+            if index == '1':
+                day.work_type = 'Ночная'
+            if index == '2':
+                day.work_type = 'Дневная'
+            if index == 'В':
+                day.work_type = 'Выходной'
+
+            self.last_shift = schedule_index
+
+            schedule_index += 1
+            if schedule_index >= 4:
+                schedule_index -= 4
 
 
 if __name__ == '__main__':
-    june = Month(2024, 6, '1/1')
-    june.gen_day_list()
-    day = june.days_list[5]
-    print(day.is_work, day.weekday)
-    june.one_one()
-    print(day.is_work, day.weekday)
+    june = Month(2024, 1, '1/1', 2)
+    june.last_shift = 2
+    june.calculate_schedule()
     print(june)
     for day in june.days_list:
         print(day)
+    print(june.last_shift)
+
+    day = june.find_day('12')
+    print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
+    day.plan = 'Погулять'
+    print(f'{day.date}|{day.weekday}|{day.work_type}\n{day.plan}')
