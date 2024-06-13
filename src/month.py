@@ -68,6 +68,8 @@ class Month:
             self.__five_two()
         if self.schedule == '1/1':
             self.__one_one()
+        if self.schedule == '2/2':
+            self.__two_two()
 
     def __five_two(self):
         """ Метод для расчета графика '5/2' """
@@ -90,6 +92,24 @@ class Month:
             elif index == '1':
                 day.is_work = True
                 day.work_type = 'Ночная'
+            else:
+                day.is_work = False
+                day.work_type = 'Выходной'
+
+            self.last_shift = schedule_index
+            schedule_index += 1
+            if schedule_index >= 4:
+                schedule_index -= 4
+
+    def __two_two(self):
+        """ Метод для расчета графика '2/2' """
+        schedule = ['2', '2', 'В', 'В']
+        schedule_index = self.last_shift
+        for day in self.days_list:
+            index = schedule[schedule_index]
+            if index == '2':
+                day.is_work = True
+                day.work_type = 'Дневная'
             else:
                 day.is_work = False
                 day.work_type = 'Выходной'
