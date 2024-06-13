@@ -20,6 +20,12 @@ def day3():
 
 
 @pytest.fixture
+def day_4():
+    day = Day('13.06.2024', False, False)
+    return day
+
+
+@pytest.fixture
 def may_5_2():
     may = Month(2024, 5, '5/2')
     may.calculate_schedule()

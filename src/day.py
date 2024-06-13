@@ -8,21 +8,23 @@ class Day:
     weekday_ind: int
     is_work: bool
     is_vacation: bool
-    plan: str
+    plans_for_the_day: str
     weather: str
     work_type: str
+    recorded: dict
 
-    def __init__(self, date, is_work=None, is_vacation=None):
+    def __init__(self, date, is_work=None, is_vacation=False):
         self.date = date
         weekday_ind = datetime.date.weekday(datetime.datetime.strptime(self.date, '%d.%m.%Y'))
         week = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
         self.weekday = week[weekday_ind]
         self.weekday_ind = weekday_ind
         self.is_work = is_work
-        self.work_type = 'Дневная'
+        self.work_type = 'Выходной'
         self.is_vacation = is_vacation
-        self.plan = 'Ничего не запланировано'
+        self.plans_for_the_day = 'Ничего не запланировано'
         self.weather = 'Не известно'
+        self.recorded = dict()
 
         if self.is_work:
             self.is_vacation = False
@@ -42,3 +44,24 @@ class Day:
         if int(self.date[:2]) < 10:
             result = self.date[1:2]
         return result
+
+    def write_down(self):
+        """Записывает все значения дня в словарь, нужно вызывать после каждого изменения"""
+        self.recorded = {
+            'date': self.date,
+            'weekday_int': self.weekday_ind,
+            'weekday': self.weekday,
+            'is_work': self.is_work,
+            'work_type': self.work_type,
+            'is_vacation': self.is_vacation,
+            'plans_for_the_day': self.plans_for_the_day,
+            'weather': self.weather
+        }
+
+
+if __name__ == '__main__':
+    day = Day('13.06.2024', False, False)
+    day.plans_for_the_day = 'Программировать'
+    print(day.recorded)
+    day.write_down()
+    print(day.recorded)

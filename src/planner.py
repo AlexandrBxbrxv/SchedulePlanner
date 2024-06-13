@@ -27,7 +27,7 @@ class Planner:
 
 
 if __name__ == '__main__':
-    my_schedule = Planner(2024, schedule='1/1')
+    my_schedule = Planner(2024, '1/1', [6, 7])
     my_schedule.generate_schedule()
     for m in my_schedule.generated_list:
         print(m)
