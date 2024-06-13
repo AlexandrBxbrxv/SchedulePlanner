@@ -54,9 +54,9 @@ class Month:
             month_len -= 1
 
     def find_day(self, date: str):
-        """Находит день по короткой дате(1, 9, 31), возвращает на него ссылку"""
+        """Находит день по дате и месяцу(12.06), возвращает на него ссылку"""
         for day in self.days_list:
-            if day.short_date() == date:
+            if day.date[:5] == date:
                 return day
 
     def calculate_schedule(self):
