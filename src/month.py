@@ -37,6 +37,7 @@ class Month:
         """Создает список пустых(только дата) дней и складывает их в список"""
         month_len = calendar.monthrange(self.__year, self.__month_ind)[1]
         day = 1
+        name = ''
         while range(month_len):
             # Добавление 0 в дату если 1-9 станет 01-09
             null_day = ''
@@ -121,21 +122,10 @@ class Month:
 
 
 if __name__ == '__main__':
-    june = Month(2024, 7, '1/1', 4)
+    june = Month(2024, 7, '1/1', 4, 2)  # начиная с 4 дня с ночной смены
     june.calculate_schedule()
     print(june)
     for day in june.days_list:
-        print(day)
+        print(repr(day), day)
     print(june.last_shift)
 
-    # month_list = [6, 7, 8, 9, 10, 11, 12]
-    # last = 1
-    # for index in month_list:
-    #     month = Month(2024, index, '1/1', last_shift=last)
-    #     month.calculate_schedule()
-    #     last = month.last_shift + 1
-    #     if last > 3:
-    #         last = 0
-    #     print(month)
-    #     for day in month.days_list:
-    #         print(day)

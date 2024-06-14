@@ -13,15 +13,15 @@ class Day:
     work_type: str
     recorded: dict
 
-    def __init__(self, date, is_work=False, is_vacation=False):
+    def __init__(self, date):
         self.date = date
         weekday_ind = datetime.date.weekday(datetime.datetime.strptime(self.date, '%d.%m.%Y'))
         week = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
         self.weekday = week[weekday_ind]
         self.weekday_ind = weekday_ind
-        self.is_work = is_work
+        self.is_work = False
         self.work_type = 'Выходной'
-        self.is_vacation = is_vacation
+        self.is_vacation = False
         self.plans_for_the_day = 'Ничего не запланировано'
         self.weather = 'Не известно'
         self.recorded = dict()
@@ -60,7 +60,7 @@ class Day:
 
 
 if __name__ == '__main__':
-    day = Day('13.06.2024', False, False)
+    day = Day('13.06.2024')
     day.plans_for_the_day = 'Программировать'
     print(day.recorded)
     day.write_down()
