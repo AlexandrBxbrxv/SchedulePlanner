@@ -1,7 +1,7 @@
 def test_day1_init(day1):
     assert day1.date == '09.06.2024'
     assert day1.weekday == 'ВС'
-    assert day1.is_work is None
+    assert day1.is_work is False
     assert day1.is_vacation is False
 
 

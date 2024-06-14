@@ -35,7 +35,8 @@ def may_5_2():
 
 @pytest.fixture
 def june_1_1():
-    june = Month(2024, 6, '1/1')
+    """1/1 начиная расчет со дня 2"""
+    june = Month(2024, 6, '1/1', 3)
     june.calculate_schedule()
     return june
 

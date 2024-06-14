@@ -63,7 +63,7 @@ class Month:
         """ Выбирает и использует метод расчета в зависимости от графика(Например: '5/2') """
         if not self.days_list:
             self.gen_day_list()
-        # [self.first_day:] нужно писать во всех методах расчета, нужен для расчета графика с определенного дня
+        # [self.first_day - 1:] нужно писать во всех методах расчета, нужен для расчета графика с определенного дня
         if self.schedule == '5/2':
             self.__five_two()
         if self.schedule == '1/1':
@@ -73,18 +73,18 @@ class Month:
 
     def __five_two(self):
         """ Метод для расчета графика '5/2' """
-        for day in self.days_list[self.first_day:]:
+        for day in self.days_list[self.first_day - 1:]:
             if day.weekday_ind > 4:
                 day.is_work = False
             else:
                 day.is_work = True
-                day.work_type = 'Рабочий'
+                day.work_type = 'Дневная'
 
     def __one_one(self):
         """ Метод для расчета графика '1/1' """
         schedule = ['2', 'В', '1', 'В']
         schedule_index = self.last_shift
-        for day in self.days_list[self.first_day:]:
+        for day in self.days_list[self.first_day - 1:]:
             index = schedule[schedule_index]
             if index == '2':
                 day.is_work = True
@@ -105,7 +105,7 @@ class Month:
         """ Метод для расчета графика '2/2' """
         schedule = ['2', '2', 'В', 'В']
         schedule_index = self.last_shift
-        for day in self.days_list[self.first_day:]:
+        for day in self.days_list[self.first_day - 1:]:
             index = schedule[schedule_index]
             if index == '2':
                 day.is_work = True
@@ -121,7 +121,7 @@ class Month:
 
 
 if __name__ == '__main__':
-    june = Month(2024, 6, '1/1', 6)
+    june = Month(2024, 7, '1/1', 4)
     june.calculate_schedule()
     print(june)
     for day in june.days_list:

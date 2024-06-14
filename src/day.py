@@ -13,7 +13,7 @@ class Day:
     work_type: str
     recorded: dict
 
-    def __init__(self, date, is_work=None, is_vacation=False):
+    def __init__(self, date, is_work=False, is_vacation=False):
         self.date = date
         weekday_ind = datetime.date.weekday(datetime.datetime.strptime(self.date, '%d.%m.%Y'))
         week = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']

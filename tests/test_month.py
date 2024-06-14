@@ -5,7 +5,7 @@ def test_month1_init(may_5_2):
 
 def test_month2_init(june_1_1):
     assert repr(june_1_1) == 'Month(2024, 6, "1/1")'
-    assert june_1_1.first_day == 1
+    assert june_1_1.first_day == 3
 
 
 def test_five_two(may_5_2):
@@ -19,14 +19,22 @@ def test_five_two(may_5_2):
 
 
 def test_one_one(june_1_1):
-    assert june_1_1.days_list[0].work_type == 'Дневная'
-    assert june_1_1.days_list[1].work_type == 'Выходной'
-    assert june_1_1.days_list[2].work_type == 'Ночная'
+    assert june_1_1.days_list[2].work_type == 'Дневная'
     assert june_1_1.days_list[3].work_type == 'Выходной'
+    assert june_1_1.days_list[4].work_type == 'Ночная'
+    assert june_1_1.days_list[5].work_type == 'Выходной'
 
 
 def test_find_day(june_1_1):
-    day = june_1_1.find_day('12')
+    day = june_1_1.find_day('12.06')
     assert day.is_work is False
     assert day.date == '12.06.2024'
+
+
+def test_first_day(june_1_1):
+    d1, d2, d3, d4 = june_1_1.days_list[0:4]
+    assert d1.is_work is False
+    assert d2.is_work is False
+    assert d3.is_work is True
+    assert d4.is_work is False
 
