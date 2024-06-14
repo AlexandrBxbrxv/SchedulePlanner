@@ -36,7 +36,7 @@ class Month:
     def gen_day_list(self):
         """Создает список пустых(только дата) дней и складывает их в список"""
         month_len = calendar.monthrange(self.__year, self.__month_ind)[1]
-        day = self.first_day
+        day = 1
         while range(month_len):
             # Добавление 0 в дату если 1-9 станет 01-09
             null_day = ''
@@ -63,7 +63,7 @@ class Month:
         """ Выбирает и использует метод расчета в зависимости от графика(Например: '5/2') """
         if not self.days_list:
             self.gen_day_list()
-
+        # [self.first_day:] нужно писать во всех методах расчета, нужен для расчета графика с определенного дня
         if self.schedule == '5/2':
             self.__five_two()
         if self.schedule == '1/1':
@@ -73,18 +73,18 @@ class Month:
 
     def __five_two(self):
         """ Метод для расчета графика '5/2' """
-        for day in self.days_list:
+        for day in self.days_list[self.first_day:]:
             if day.weekday_ind > 4:
                 day.is_work = False
-                day.work_type = 'Выходной'
             else:
                 day.is_work = True
+                day.work_type = 'Рабочий'
 
     def __one_one(self):
         """ Метод для расчета графика '1/1' """
         schedule = ['2', 'В', '1', 'В']
         schedule_index = self.last_shift
-        for day in self.days_list:
+        for day in self.days_list[self.first_day:]:
             index = schedule[schedule_index]
             if index == '2':
                 day.is_work = True
@@ -105,7 +105,7 @@ class Month:
         """ Метод для расчета графика '2/2' """
         schedule = ['2', '2', 'В', 'В']
         schedule_index = self.last_shift
-        for day in self.days_list:
+        for day in self.days_list[self.first_day:]:
             index = schedule[schedule_index]
             if index == '2':
                 day.is_work = True
@@ -121,22 +121,21 @@ class Month:
 
 
 if __name__ == '__main__':
-    june = Month(2024, 6, '1/1')
-    june.last_shift = 2
+    june = Month(2024, 6, '1/1', 6)
     june.calculate_schedule()
-    # print(june)
-    # for day in june.days_list:
-    #     print(day)
-    # print(june.last_shift)
+    print(june)
+    for day in june.days_list:
+        print(day)
+    print(june.last_shift)
 
-    month_list = [6, 7, 8, 9, 10, 11, 12]
-    last = 1
-    for index in month_list:
-        month = Month(2024, index, '1/1', last_shift=last)
-        month.calculate_schedule()
-        last = month.last_shift + 1
-        if last > 3:
-            last = 0
-        print(month)
-        for day in month.days_list:
-            print(day)
+    # month_list = [6, 7, 8, 9, 10, 11, 12]
+    # last = 1
+    # for index in month_list:
+    #     month = Month(2024, index, '1/1', last_shift=last)
+    #     month.calculate_schedule()
+    #     last = month.last_shift + 1
+    #     if last > 3:
+    #         last = 0
+    #     print(month)
+    #     for day in month.days_list:
+    #         print(day)
