@@ -12,17 +12,26 @@ def day1():
 
 @pytest.fixture
 def day2():
-    return Day('08.06.2024', False)
+    return Day('08.06.2024')
 
 
 @pytest.fixture
 def day3():
-    return Day('10.06.2024', is_vacation=True)
+    return Day('10.06.2024')
 
 
 @pytest.fixture
 def day_4():
-    day = Day('13.06.2024', False, False)
+    day = Day('13.06.2024')
+    return day
+
+
+@pytest.fixture
+def day_recorded():
+    day = Day('18.06.2024')
+    day.is_work = True
+    day.work_type = 'Ночная'
+    day.plans_for_the_day = 'Спасть после смены до 13:00'
     return day
 
 

@@ -26,6 +26,9 @@ class Day:
         self.weather = 'Не известно'
         self.recorded = dict()
 
+        # В момент инициализации записывает предустановленные значения дня в словарь
+        self.write_down()
+
         if self.is_work:
             self.is_vacation = False
 
@@ -46,7 +49,7 @@ class Day:
         return result
 
     def write_down(self):
-        """Записывает все значения дня в словарь, нужно вызывать после каждого изменения"""
+        """Перезаписывает все значения дня в словарь, нужно вызывать после каждого изменения"""
         self.recorded = {
             'date': self.date,
             'weekday_int': self.weekday_ind,
@@ -58,10 +61,11 @@ class Day:
             'weather': self.weather
         }
 
+    @property
+    def is_work(self):
+        return self.is_work
 
-if __name__ == '__main__':
-    day = Day('13.06.2024')
-    day.plans_for_the_day = 'Программировать'
-    print(day.recorded)
-    day.write_down()
-    print(day.recorded)
+    @is_work.setter
+    def is_work(self, new_value):
+        self.is_work = new_value
+        self.write_down()

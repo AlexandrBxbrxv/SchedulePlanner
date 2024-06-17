@@ -14,7 +14,7 @@ def test_day2_init(day2):
 
 def test_day3_init(day3):
     assert day3.is_work is False
-    assert day3.is_vacation
+    assert day3.is_vacation is False
     assert day3.weekday == 'ПН'
     assert day3.weather == 'Не известно'
 
@@ -37,3 +37,11 @@ def test_write_down(day_4):
         'plans_for_the_day': 'Программировать',
         'weather': 'Не известно'
     }
+
+
+def test_recorded(day_recorded):
+    day = day_recorded.recorded
+    assert day['date'] == '18.06.2024'
+    assert day['is_work'] is True
+    assert day['work_type'] == 'Ночная'
+    assert day['plans_for_the_day'] == 'Спасть после смены до 13:00'
