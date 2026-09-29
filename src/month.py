@@ -14,6 +14,7 @@ class Month:
     first_day: int
     last_shift: int
     month_name: str
+    recorded: list
 
     def __init__(self, year, month_ind, schedule, first_day=1, last_shift=0):
         self.__year = year
@@ -24,6 +25,7 @@ class Month:
         self.first_day = first_day
         self.days_list = []
         self.last_shift = last_shift
+        self.recorded = []
 
     def __repr__(self):
         """Представление для отладки"""
@@ -59,6 +61,33 @@ class Month:
         for day in self.days_list:
             if day.date[:5] == date:
                 return day
+
+    def find_all_days_off_in_weekdays(self):
+        """Возвращает список всех выходных дней выпадающих на будние дни недели"""
+        weekdays_dayoffs = []
+        if self.schedule == '1/1':
+            for day in self.days_list:
+                if day.weekday_ind < 5 and day.work_type in ('Выходной', 'Ночная'):
+                    weekdays_dayoffs.append(day)
+        else:
+            for day in self.days_list:
+                if day.weekday_ind < 5 and day.is_work is False:
+                    weekdays_dayoffs.append(day)
+        return weekdays_dayoffs
+
+    def save(self):
+        """Записывает сохраненные в формате словарей дни в список"""
+        for day in self.days_list:
+            day.save()
+            self.recorded.append({day.date: day.recorded})
+
+    def load(self, data):
+        """В уже созданный пустой график загружает ранее сохраненные данные"""
+        index = 0
+        for day in self.days_list:
+            # Звездочка убирает "dict_values([])" выдает чистые значения в формате словаря
+            day.load(*data.values())
+            index += 1
 
     def calculate_schedule(self):
         """ Выбирает и использует метод расчета в зависимости от графика(Например: '5/2') """
@@ -122,10 +151,13 @@ class Month:
 
 
 if __name__ == '__main__':
-    june = Month(2024, 7, '1/1', 4, 2)  # начиная с 4 дня с ночной смены
-    june.calculate_schedule()
-    print(june)
-    for day in june.days_list:
-        print(repr(day), day)
-    print(june.last_shift)
+    month = Month(2024, 7, '1/1', 1, 3)  # начиная с 4 дня с ночной смены
+    month.calculate_schedule()
+    print(month)
+    month.save()
+    print(month.recorded)
+    # for day in month.days_list:
+    #     print(day)
 
+    # tes = [{'01.07.2024': {'date': '01.07.2024', 'weekday_int': 0, 'weekday': 'ПН', 'is_work': False, 'work_type': 'Выходной', 'is_vacation': False, 'plans_for_the_day': 'Ничего не запланировано', 'weather': 'Не известно'}}, {'02.07.2024': {'date': '02.07.2024', 'weekday_int': 1, 'weekday': 'ВТ', 'is_work': True, 'work_type': 'Дневная', 'is_vacation': False, 'plans_for_the_day': 'Ничего не запланировано', 'weather': 'Не известно'}}]
+    # print(*tes[0].values())

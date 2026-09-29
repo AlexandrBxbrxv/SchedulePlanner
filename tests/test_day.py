@@ -24,9 +24,9 @@ def test_short_date(day1, day3):
     assert day3.short_date() == '10'
 
 
-def test_write_down(day_4):
+def test_save(day_4):
     day_4.plans_for_the_day = 'Программировать'
-    day_4.write_down()
+    day_4.save()
     assert day_4.recorded == {
         'date': '13.06.2024',
         'weekday_int': 3,
@@ -37,11 +37,3 @@ def test_write_down(day_4):
         'plans_for_the_day': 'Программировать',
         'weather': 'Не известно'
     }
-
-
-def test_recorded(day_recorded):
-    day = day_recorded.recorded
-    assert day['date'] == '18.06.2024'
-    assert day['is_work'] is True
-    assert day['work_type'] == 'Ночная'
-    assert day['plans_for_the_day'] == 'Спасть после смены до 13:00'

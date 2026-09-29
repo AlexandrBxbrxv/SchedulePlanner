@@ -38,3 +38,11 @@ def test_first_day(june_1_1):
     assert d3.is_work is True
     assert d4.is_work is False
 
+
+def test_find_all_days_off_in_weekdays(july_1_1):
+    find = july_1_1.find_all_days_off_in_weekdays()
+    day = find[0]
+    assert day.date == '01.07.2024'
+    assert day.weekday_ind == 0
+    assert day.weekday == 'ПН'
+    assert day.is_work is False

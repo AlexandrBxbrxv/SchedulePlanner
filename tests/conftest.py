@@ -51,6 +51,13 @@ def june_1_1():
 
 
 @pytest.fixture
+def july_1_1():
+    july = Month(2024, 7, '1/1', 1, 3)
+    july.calculate_schedule()
+    return july
+
+
+@pytest.fixture
 def schedule_1():
     return Planner(2024, 1/1, [6, 7], 1)
 
